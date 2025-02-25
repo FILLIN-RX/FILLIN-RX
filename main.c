@@ -5,50 +5,60 @@
 #include"function.c"
 
 int main(){
-    int n=0,m=0;
-    char matricule[20];
+    int n=0,m=0,p=0;
+    char matricule[20],old_user[20],old_password[20];
     PRODUCT*product;
-    
+    user*users;
+   
     
     do
-    {    
-   
-        printf("\n1.store product\n2.view product\n3.look product");
-        printf("\nenter you operation\n");
-        scanf("%d",&m);
-    switch (m)
     {
-    case 1:
-            printf("Enter the number of items to register\n");
-            scanf("%d",&n);
-            product=(PRODUCT*)malloc(n*sizeof(PRODUCT));
-            if (product==NULL)
+        printf("1.Register as new user\n2.login\n3.view users\n");
+        scanf("%d",&p);
+        switch (p)
+        {
+        case 1:
+            users=(user*)malloc(n*sizeof(user));
+            if (users==NULL)
             {
-                printf("Erreur d'allocation de memoire");
+                printf("memory allocation failled");
                 return 1;
             }
-            
-            
-            store(n,product);
-            free(product);
-        break;
-    case 2:
-            print(n ,product);
-        break;
-    case 3:
-            printf("enter the id of the product to find\n");
-            scanf("%s",matricule);
-            lookup_student(n,product,matricule);
-        break;
-        
-    
-    default:
-    printf("invalid option");
-        break;
-    }
+            welcome(users);
+            free(users);
+            break;
+        case 2:
+            users=(user*)malloc(n*sizeof(user));
+            if (users==NULL)
+            {
+                printf("memory allocation failled");
+                return 1;
+            }
+            printf("login information\n");
+            printf("NAME:\n");
+            scanf("%s", old_user);
+            Users(n,users,old_user,old_password);
+            free(users);
+            break;
+        case 3:
+            users=(user*)malloc(n*sizeof(user));
+            if (users==NULL)
+            {
+                printf("memory allocation failled");
+                return 1;
+            }
+            view_users(n,users);
+            free(users);
+            break;
 
-    
-} while (m<4);
+        default:
+            printf("invalid option");
+            break;
+        }
+    } while (p<4);
 
     return 0;
+
 }
+    
+   

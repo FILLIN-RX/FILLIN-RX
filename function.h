@@ -10,13 +10,27 @@ struct PRODUCT{
     int quantity;
 
 };
+typedef struct user user;
+struct user
+{
+    char name[20];
+    char password[20];
+    PRODUCT product;
+};
+
 void store(int n, PRODUCT*product);
 
 void print(int n ,PRODUCT*product);
 
 int lookup_student(int n ,PRODUCT*product,char *matricule);
 
+void welcome(user*user);
 
+void users(int n,user*user,char*old_user[20],char*old_password[20]);
+
+int menu();
+
+void view_users(int n,user*users);
 
 
 
