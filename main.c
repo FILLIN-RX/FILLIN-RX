@@ -5,12 +5,12 @@
 #include"function.c"
 
 int main(){
-    int n=0,m=0,p=0;
-    char matricule[20],old_user[20],old_password[20];
+    int n=0,p=0;
+    char old_user[20],old_password[20];
     PRODUCT*product;
     user*users;
-   
-    
+
+
     do
     {
         printf("1.Register as new user\n2.login\n3.view users\n");
@@ -18,14 +18,16 @@ int main(){
         switch (p)
         {
         case 1:
-            users=(user*)malloc(n*sizeof(user));
-            if (users==NULL)
-            {
-                printf("memory allocation failled");
-                return 1;
-            }
-            welcome(users);
+            printf("enter the number of users\n");
+            scanf("%d",&n);
+            user*users=(user*)malloc(n*sizeof(user));
+
+            welcome(users,n);
+            free_Memory(n,users);
+
             free(users);
+
+
             break;
         case 2:
             users=(user*)malloc(n*sizeof(user));
@@ -60,5 +62,3 @@ int main(){
     return 0;
 
 }
-    
-   
