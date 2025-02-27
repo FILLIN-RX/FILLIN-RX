@@ -1,176 +1,137 @@
-#include<stdio.h>
-#include<string.h>
-#include"function.h"
-int i=0;
-void welcome(user*users ,int n){
-    for ( i = 0; i < n; i++)
-    {
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "function.h"
 
-
-
-    printf("Enter your name:\n");
-    scanf("%s", users[i].name);
-    printf("enter your password:\n");
-    scanf("%s",users[i].password);
-    users[i].product = NULL;
-    users[i].product_count=0;
-    printf("Registered successfully\n");
-     menu(&users[i]);
-
+void welcome(user* users, int n) {
+    for (int i = 0; i < n; i++) {
+        printf("Enter your name:\n");
+        scanf("%s", users[i].name);
+        printf("Enter your password:\n");
+        scanf("%s", users[i].password);
+        users[i].product = NULL;
+        users[i].product_count = 0;
+        printf("Registered successfully\n");
+        menu(&users[i]);
     }
-
 }
-void Users(int n,user*users,char*old_user,char*old_password){
-    int i=0;
-    for ( i = 0; i < n; i++)
-    {
-        if (strcmp(old_user,users[i].name)==0)
-        {
-         l1:printf("PASSWORD:\n");
-            scanf("%s",old_password);
-            if (strcmp(old_password,users[i].password)==0)
-            {
-                menu(&users[i]);
-            }else
-            {
-                printf("invalid password\n");
-                goto l1;
+
+void Users(int n, user* users, char* old_user, char* old_password) {
+    int found = 0;
+    for (int i = 0; i < n; i++) {
+        if (strcmp(old_user, users[i].name) == 0) {
+            found = 1;
+            while (1) {
+                printf("PASSWORD:\n");
+                scanf("%s", old_password);
+                if (strcmp(old_password, users[i].password) == 0) {
+                    menu(&users[i]);
+                    return;
+                } else {
+                    printf("Invalid password. Try again.\n");
+                }
             }
-
-
-
-        }else
-        {
-            printf("no user found\n");
-        }
-
-
-
-    }
-
-
-
-}
-void view_users(int n,user*users){
-    for ( i = 0; i < n; i++)
-    {
-        printf("USER %d\n",i+1);
-        printf("NAME:%s\n",users[i].name);
-        printf("PASSWORD:\n-------------\n");
-    }
-
-}
-
-void store(int m, PRODUCT*product){
-    int j=0;
-    printf("Enter the information of the product\n");
-    for ( j = 0; i < m; j++)
-    {
-
-        printf("PRODUCT:%d\n",i+1);
-        printf("NAME\n");
-        scanf("%s",product[j].name);
-        printf("quantity\n");
-        scanf("%d" ,&product[j].quantity);
-        printf("id:\n");
-        scanf("%s" ,product[j].id);
-
-    }
-}
-
-void print(int m ,PRODUCT*product){
-    int j=0;
-    for ( j = 0; j < m; j++)
-    {
-        printf("product: %d\n",i+1);
-        printf("NAME:%s\n",product[j].name);
-        printf("QUANTITY:%d\n",product[j].quantity);
-        printf("ID:%s\n",product[j].id);
-    }
-
-
-
-}
-void lookup_student(int m ,PRODUCT*product,char *matricule){
-    int j,b;
-
-    for ( j = 0; j< m; j++)
-    {
-        b=strcmp(matricule,product[j].id);
-        if (b==0)
-        {
-            printf("NAME:%s\n",product[j].name);
-            printf("quantity:%d\n",product[j].quantity);
-
-            return ;
         }
     }
-
-
-    printf("\n Product with id %s not found.\n" , matricule);
-
-
-}
-
-void free_Memory(int n,user*users){
-    for ( i = 0; i < n; i++)
-    {
-        free(users[i].product);
+    if (!found) {
+        printf("No user found.\n");
     }
-
 }
-void menu(user*users){
-    int choice=0,m=0;
-    char matricule[20],old_user[20],old_password[20];
-    PRODUCT*product;
-    user*user;
 
-
-do
-{
-
-    printf("\n1.store product\n2.view product\n3.look product\n4.back");
-    printf("\nenter you operation\n");
-    scanf("%d",&choice);
-switch (choice)
-{
-case 1:
-        printf("Enter the number of items to register\n");
-        scanf("%d",&m);
-        product=(PRODUCT*)malloc(m*sizeof(PRODUCT));
-        if (product==NULL)
-        {
-            printf("Erreur d'allocation de memoire");
-            return ;
-        }
-        users->product_count=m;
-
-
-        store(m,users->product);
-
-    break;
-case 2:
-        print(m ,users->product);
-    break;
-case 3:
-        printf("enter the id of the product to find\n");
-        scanf("%s",matricule);
-        lookup_student(users->product_count,product,matricule);
-    break;
-case 4:
-        free(product);
+void view_users(int n, user* users) {
+    if (users == NULL || n <= 0) {
+        printf("No users registered.\n");
         return;
-
-        break;
-
-
-default:
-printf("invalid option");
-    break;
+    }
+    for (int i = 0; i < n; i++) {
+        printf("USER %d\n", i + 1);
+        printf("NAME: %s\n", users[i].name);
+        printf("PASSWORD: (hidden for security)\n");
+    }
 }
 
+void store(int m, PRODUCT* product) {
+    printf("Enter the information of the product\n");
+    for (int j = 0; j < m; j++) {
+        printf("PRODUCT %d\n", j + 1);
+        printf("NAME: ");
+        scanf("%s", product[j].name);
+        printf("QUANTITY: ");
+        scanf("%d", &product[j].quantity);
+        printf("ID: ");
+        scanf("%s", product[j].id);
+    }
+}
 
-} while (choice<4);
+void print(int m, PRODUCT* product) {
+    for (int j = 0; j < m; j++) {
+        printf("PRODUCT %d\n", j + 1);
+        printf("NAME: %s\n", product[j].name);
+        printf("QUANTITY: %d\n", product[j].quantity);
+        printf("ID: %s\n", product[j].id);
+    }
+}
 
+void lookup_student(int m, PRODUCT* product, char* matricule) {
+    for (int j = 0; j < m; j++) {
+        if (strcmp(matricule, product[j].id) == 0) {
+            printf("NAME: %s\n", product[j].name);
+            printf("QUANTITY: %d\n", product[j].quantity);
+            return;
+        }
+    }
+    printf("\nProduct with ID %s not found.\n", matricule);
+}
 
+void free_Memory(int n, user* users) {
+    for (int i = 0; i < n; i++) {
+        if (users[i].product != NULL) {
+            free(users[i].product);
+            users[i].product = NULL;
+        }
+    }
+}
+
+void menu(user* u) {
+    int choice = 0, m = 0;
+    char matricule[20];
+
+    do {
+        printf("\n1. Store product\n2. View product\n3. Look up product\n4. Back\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter the number of items to register: ");
+                scanf("%d", &m);
+                u->product = (PRODUCT*)malloc(m * sizeof(PRODUCT));
+                if (u->product == NULL) {
+                    printf("Memory allocation failed.\n");
+                    return;
+                }
+                u->product_count = m;
+                store(m, u->product);
+                break;
+            case 2:
+                if (u->product == NULL) {
+                    printf("No products stored.\n");
+                } else {
+                    print(u->product_count, u->product);
+                }
+                break;
+            case 3:
+                printf("Enter the ID of the product to find: ");
+                scanf("%s", matricule);
+                lookup_student(u->product_count, u->product, matricule);
+                break;
+            case 4:
+                free(u->product);
+                u->product = NULL;
+                return;
+            default:
+                printf("Invalid option.\n");
+                break;
+        }
+    } while (choice < 4);
 }
