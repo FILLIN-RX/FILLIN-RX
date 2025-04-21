@@ -8,6 +8,7 @@ int main() {
 
     int choice = 0, m = 0;
     char matricule[20];
+    int nbProduits = 0;
     char namepurchase[200];
     PRODUCT product[200];
 
@@ -19,23 +20,20 @@ int main() {
         switch (choice) {
             case 1:
 
-                store(product);
+            store(product, &nbProduits);
                 break;
             case 2:
-                if (product == NULL) {
-                    printf("No products stored.\n");
-                } else {
-                    print( m,  product);
-                }
+
+                print(nbProduits, product);
                 break;
             case 3:
                 printf("Enter the ID of the product to find: ");
                 scanf("%s", matricule);
-                lookup_student(m,product, matricule);
+                lookup_student(nbProduits, product, matricule);
                 break;
             case 4:
 
-                purchase(m,product,namepurchase);
+                purchase(nbProduits, product, namepurchase);
                 break;
             default:
                 printf("Invalid option.\n");

@@ -16,8 +16,8 @@ typedef struct user {
     int product_count;
 } user;
 
-void store(PRODUCT* product);
-void print(int n, PRODUCT* product);
+void store( PRODUCT* product,int* nbProduits) ;
+void print(int nb, PRODUCT* product);
 void lookup_student(int m, PRODUCT* product, char* matricule);
 void free_Memory(int n, user* users);
 void purchase(int m ,PRODUCT*product,char*namepurchase );

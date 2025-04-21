@@ -41,12 +41,18 @@ void store( PRODUCT* product,int* nbProduits) {
     *nbProduits += m;  // on met à jour le compteur
 }
 
-void print(int m, PRODUCT* product) {
-    for (int j = 0; j < m; j++) {
-        printf("PRODUCT %d\n", j + 1);
-        printf("NAME: %s\n", product[j].name);
-        printf("QUANTITY: %d\n", product[j].quantity);
-        printf("ID: %s\n", product[j].id);
+void print(int nb, PRODUCT* product) {
+
+    if (nb == 0) {
+        printf("No products stored.\n");
+    }
+
+    printf("\n==== LISTE DES PRODUITS ====\n");
+    printf("%-15s %-10s %-10s\n", "Nom", "Quantité", "ID");
+    for (int j = 0; j < nb; j++) {
+        printf("NAME: %-15s", product[j].name);
+        printf("QUANTITY: %-10d", product[j].quantity);
+        printf("ID: %-10s", product[j].id);
     }
 }
 
