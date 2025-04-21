@@ -9,7 +9,7 @@
       "stopAtEntry": false,
       "externalConsole": false,
       "cwd": "/home/fillin/FILLIN-RX",
-      "program": "/home/fillin/FILLIN-RX/build/Debug/outDebug",
+      "program": "/home/fillin/FILLIN-RX/build/Release/outRelease",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

@@ -5,54 +5,62 @@
 #include"function.c"
 
 int main() {
-    int n = 0, p = 0;
-    char old_user[20], old_password[20];
-    user* users = NULL;
+
+    int choice = 0, m = 0;
+    char matricule[20];
+    char namepurchase[200];
+    PRODUCT*product;
 
     do {
-        printf("1. Register as new user\n2. Login\n3. View users\n4. Exit\n");
+        printf("\n1. Store product\n2. View product\n3. Look up product\n4. purchase item\n5.back\n");
         printf("Enter your choice: ");
-        scanf("%d", &p);
+        scanf("%d", &choice);
 
-        switch (p) {
+        switch (choice) {
             case 1:
-                printf("Enter the number of users: ");
-                scanf("%d", &n);
-                users = (user*)malloc(n * sizeof(user));
-                if (users == NULL) {
+                printf("Enter the number of items to register: ");
+                scanf("%d", &m);
+                product = (PRODUCT*)malloc(m * sizeof(PRODUCT));
+                if (product == NULL) {
                     printf("Memory allocation failed.\n");
-                    return 1;
+                    return 0;
                 }
-                welcome(users, n);
-                free_Memory(n, users);
-                free(users);
-                users = NULL;
+                store(m, product);
                 break;
-
             case 2:
-                if (n <= 0) {
-                    printf("No users registered yet.\n");
-                    break;
+                if (product == NULL) {
+                    printf("No products stored.\n");
+                } else {
+                    print( m,  product);
                 }
-                printf("Login information:\n");
-                printf("NAME: ");
-                scanf("%s", old_user);
-                Users(n, users, old_user, old_password);
                 break;
-
             case 3:
-                view_users(n, users);
+                printf("Enter the ID of the product to find: ");
+                scanf("%s", matricule);
+                lookup_student(m,product, matricule);
                 break;
-
             case 4:
-                printf("Exiting program.\n");
-                break;
+            int n=0,o;
+               
+                purchase(m,product,namepurchase);
 
+
+
+
+
+
+                break;
+            case 5:
+                free(product);
+                product = NULL;
+                break;;
             default:
                 printf("Invalid option.\n");
                 break;
         }
-    } while (p != 4);
+    } while (choice < 5);
+
+
 
     return 0;
 }
