@@ -5,13 +5,19 @@
 
 
 
-void store(int m, PRODUCT* product) {
+void store( PRODUCT* product,int* nbProduits) {
+
+    int m;
+    printf("Combien de produits veux-tu entrer ? ");
+    scanf("%d", &m);
+
     printf("Enter the information of the product\n");
 
     FILE*fichier=fopen("item.txt","a");
     if (fichier==NULL)
     {
         printf("Erreur de l'ouverture du fichier");
+        return ;
     }else
     {
         for (int j = 0; j < m; j++) {
@@ -32,6 +38,7 @@ void store(int m, PRODUCT* product) {
         }
     }
     fclose(fichier);
+    *nbProduits += m;  // on met à jour le compteur
 }
 
 void print(int m, PRODUCT* product) {

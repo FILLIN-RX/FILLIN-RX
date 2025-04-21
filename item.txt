@@ -9,3 +9,5 @@ NOM:ba ,qty:8,id:23 ,cost_price:678 ,selling_price:987
 NOM:bo ,qty:6,id:34 ,cost_price:34 ,selling_price:54
 NOM:bro ,qty:5,id:1 ,cost_price:25 ,selling_price:35
 NOM:man ,qty:5,id:2 ,cost_price:45 ,selling_price:49
+NOM:banana ,qty:5,id:1 ,cost_price:23 ,selling_price:34
+NOM:free ,qty:4,id:34 ,cost_price:34 ,selling_price:234
