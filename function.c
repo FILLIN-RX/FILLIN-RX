@@ -3,6 +3,7 @@
 #include <string.h>
 #include "function.h"
 #include <time.h>
+#include <ctype.h>
 
 
 
@@ -211,14 +212,37 @@ void facture(int count,PRODUCT*product,int* quantities,int total,int profit){
     printf("        FILLIN SUPERMARKET\n");
     printf("===========================\n\n");
 
+
+    // 1. Générer et afficher la facture
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    printf( "\n================= FACTURE =================\n");
+
+    printf( "Date: %02d-%02d-%04d %02d:%02d:%02d\n", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900, tm.tm_hour, tm.tm_min, tm.tm_sec);
+    printf("%-15s %-10s %-15s %-15s\n", "Product", "Qty", "Unit Price", "Total Price");
+    printf("-------------------------------------------------------------\n");
+    for (int i = 0; i < count; i++)
+    {
+        int lineTotal = quantities[i] * product[i].sellingPrice;
+        printf("%-15s %-10d %-15d %-15d\n",
+               product[i].name,
+               quantities[i],
+               product[i].sellingPrice,
+               lineTotal);
+    }
+
+    printf("-------------------------------------------------------------\n");
+    printf("%42s %10d\n", "TOTAL:", total);
+    printf("%42s %10d\n", "PROFIT:", profit);
+    printf("=============================================================\n");
+
+    // 2. Enregistrer la facture dans un fichier
     FILE* f = fopen("factures.txt", "a"); // ← fichier historique
     if (f == NULL) {
         printf("Erreur lors de l'ouverture du fichier facture.\n");
         return;
     }
 
-    time_t t = time(NULL);
-    struct tm tm = *localtime(&t);
     fprintf(f, "\n================= FACTURE =================\n");
 
     fprintf(f, "Date: %02d-%02d-%04d %02d:%02d:%02d\n", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900, tm.tm_hour, tm.tm_min, tm.tm_sec);
@@ -277,7 +301,7 @@ int strcasecmp_custom(const char* s1, const char* s2) {
 int produitExiste(PRODUCT*product,int nbProduits,char*namepurchase,char*id){
     for (int i = 0; i < nbProduits; i++)
     {
-        if (strcasecmp_custom(product[i].name, namepurchase) == 1 || strcasecmp_custom(product[i].id, idpurchase) == 1)
+        if (strcasecmp_custom(product[i].name, namepurchase) == 1 || strcasecmp_custom(product[i].id, id) == 1)
         {
             return 1; //trouve
         }

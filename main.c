@@ -3,6 +3,8 @@
 #include <string.h>
 #include "function.h"
 #include"function.c"
+#include <time.h>
+#include <ctype.h>
 
 int main() {
 
@@ -47,7 +49,7 @@ int main() {
                 printf("Invalid option.\n");
                 break;
         }
-    } while (choice < 5);
+    } while (choice < 6);
 
 
 

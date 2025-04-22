@@ -1,2 +1,4 @@
 NOM:no ,qty:6,id:4 ,cost_price:6 ,selling_price:7
 NOM:yo ,qty:5,id:6 ,cost_price:89 ,selling_price:98
+NOM:vo ,qty:7,id:5 ,cost_price:67 ,selling_price:78
+NOM:ko ,qty:6,id:56 ,cost_price:56 ,selling_price:67
