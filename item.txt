@@ -2,3 +2,8 @@ NOM:no ,qty:6,id:4 ,cost_price:6 ,selling_price:7
 NOM:yo ,qty:5,id:6 ,cost_price:89 ,selling_price:98
 NOM:vo ,qty:7,id:5 ,cost_price:67 ,selling_price:78
 NOM:ko ,qty:6,id:56 ,cost_price:56 ,selling_price:67
+NOM:banana ,qty:67,id:5 ,cost_price:56 ,selling_price:67
+NOM:bu ,qty:67,id:77 ,cost_price:678 ,selling_price:6789
+NOM:tu ,qty:5,id:y67 ,cost_price:50 ,selling_price:67
+NOM:nm ,qty:5,id:43e ,cost_price:45 ,selling_price:56
+NOM:gh ,qty:5,id:hyt ,cost_price:56 ,selling_price:65

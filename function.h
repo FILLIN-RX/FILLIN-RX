@@ -25,7 +25,7 @@ void purchase(int m ,PRODUCT*product,char*namepurchase );
 void facture(int count, PRODUCT *product, int *quantities, int total, int profit);
 int produitExiste(PRODUCT* product, int nbProduits, char* namepurchase, char* id);
 void afficherFactures();
-
+int retirerDuStock(PRODUCT* product, int nbProduits, char nomProduit[], int quantiteDemandee) ;
 
 
 #endif

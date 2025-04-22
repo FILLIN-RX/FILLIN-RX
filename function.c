@@ -41,8 +41,6 @@ void store( PRODUCT* product,int* nbProduits) {
             strcpy(product[*nbProduits].id, tempId);
             printf("QUANTITY: ");
             scanf("%d", &product[*nbProduits].quantity);
-            printf("ID: ");
-            scanf("%s", product[*nbProduits].id);
             printf("COST PRICE: ");
             scanf("%d", &product[*nbProduits].costPrice);
             printf("SELLING PRICE: ");
@@ -144,8 +142,16 @@ void purchase(int m ,PRODUCT*product ,char*namepurchase){
         {
             found=1;
 
-            printf("QUANTITY:");
+     l2:       printf("QUANTITY:");
             scanf("%d", &purchaseQuantity);
+
+
+        if (retirerDuStock(product, m, namepurchase, purchaseQuantity)) {
+            // tu peux continuer avec la facture
+        } else {
+            // erreur de stock ou produit introuvable
+            goto l2;
+        }
 
             int lineTotal = purchaseQuantity * product[j].sellingPrice;
             int cost = purchaseQuantity * product[j].costPrice;
@@ -161,9 +167,7 @@ void purchase(int m ,PRODUCT*product ,char*namepurchase){
             quantities[numPurchased] = purchaseQuantity;
             numPurchased++;
 
-            printf("Total: %d\n", lineTotal);
-            printf("Cost: %d\n", cost);
-            printf("Profit: %d\n", profit);
+            printf("Total: %d\n", total);
             break;
 
         }
@@ -187,7 +191,7 @@ void purchase(int m ,PRODUCT*product ,char*namepurchase){
                 scanf("%d",& choice);
                 if (choice==1)
                 {
-                    facture(numPurchased, product, quantities, total, totalProfit);
+                    facture(numPurchased, purchased, quantities, total, totalProfit);
 
                 }
                 else if (choice==2)
@@ -203,10 +207,27 @@ void purchase(int m ,PRODUCT*product ,char*namepurchase){
 
 
 }
+void updateProductsToFile(PRODUCT *products, int count) {
+    FILE *f = fopen("produits.txt", "w");
+    if (!f) {
+        printf("Erreur d'ouverture du fichier produits.txt\n");
+        return;
+    }
 
-void profit(){
+    for (int i = 0; i < count; i++) {
+        fprintf(f, "%s %d %d %d %d\n",
+            products[i].name,
+            products[i].quantity,
+            products[i].id,
+            products[i].costPrice,
+            products[i].sellingPrice
+        );
+    }
 
+    fclose(f);
 }
+
+
 void facture(int count,PRODUCT*product,int* quantities,int total,int profit){
     printf("\n===========================\n");
     printf("        FILLIN SUPERMARKET\n");
@@ -216,7 +237,7 @@ void facture(int count,PRODUCT*product,int* quantities,int total,int profit){
     // 1. Générer et afficher la facture
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
-    printf( "\n================= FACTURE =================\n");
+    printf( "\n================= FACTURE =================================\n");
 
     printf( "Date: %02d-%02d-%04d %02d:%02d:%02d\n", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900, tm.tm_hour, tm.tm_min, tm.tm_sec);
     printf("%-15s %-10s %-15s %-15s\n", "Product", "Qty", "Unit Price", "Total Price");
@@ -307,4 +328,24 @@ int produitExiste(PRODUCT*product,int nbProduits,char*namepurchase,char*id){
         }
     }
     return 0; //pas trouve
+}
+
+int retirerDuStock(PRODUCT* product, int nbProduits, char nomProduit[], int quantiteDemandee) {
+    for (int i = 0; i < nbProduits; i++) {
+        if (strcasecmp(product[i].name, nomProduit) == 0) {
+            if (product[i].quantity >= quantiteDemandee) {
+                product[i].quantity -= quantiteDemandee;
+                printf("🟢 %d unité(s) de %s retirée(s) du stock. Nouveau stock : %d\n",
+                       quantiteDemandee, product[i].name, product[i].quantity);
+                return 1; // succès
+            } else {
+                printf("🔴 Stock insuffisant pour %s. (Dispo : %d, demandé : %d)\n",
+                       product[i].name, product[i].quantity, quantiteDemandee);
+                return 0; // échec
+            }
+        }
+    }
+
+    printf("🔴 Produit %s introuvable dans le stock.\n", nomProduit);
+    return -1; // produit introuvable
 }
