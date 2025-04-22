@@ -19,8 +19,9 @@ int main() {
 
         switch (choice) {
             case 1:
-
+            nbProduits = loadProductsFromFile(product); // 🔁 recharge auto
             store(product, &nbProduits);
+
                 break;
             case 2:
 

@@ -13,32 +13,66 @@ void store( PRODUCT* product,int* nbProduits) {
 
     printf("Enter the information of the product\n");
 
-    FILE*fichier=fopen("item.txt","a");
-    if (fichier==NULL)
-    {
+    FILE* fichier = fopen("item.txt", "a");
+    if (fichier == NULL) {
         printf("Erreur de l'ouverture du fichier");
-        return ;
-    }else
-    {
+        return;
+    } else {
         for (int j = 0; j < m; j++) {
             printf("PRODUCT %d\n", j + 1);
+            char tempName[50];
             printf("NAME: ");
-            scanf("%s", product[j].name);
+            scanf("%s", tempName);
+
+            // Vérifie si le produit existe déjà
+            if (produitExiste(product, *nbProduits, tempName)) {
+                printf("⚠️ Le produit '%s' existe déjà. Il ne sera pas ajouté.\n", tempName);
+                j--; // Redemander l'entrée du produit
+                continue;
+            }
+
+            // Sinon, on complète le reste des informations
+            strcpy(product[*nbProduits].name, tempName);
             printf("QUANTITY: ");
-            scanf("%d", &product[j].quantity);
+            scanf("%d", &product[*nbProduits].quantity);
             printf("ID: ");
-            scanf("%s", product[j].id);
-            printf("COST PRICE:");
-            scanf("%d",&product[j].costPrice);
-            printf("SELLING PRICE:");
-            scanf("%d",&product[j].sellingPrice);
+            scanf("%s", product[*nbProduits].id);
+            printf("COST PRICE: ");
+            scanf("%d", &product[*nbProduits].costPrice);
+            printf("SELLING PRICE: ");
+            scanf("%d", &product[*nbProduits].sellingPrice);
 
-            fprintf(fichier,"NOM:%s ,qty:%d,id:%s ,cost_price:%d ,selling_price:%d\n",product[j].name,product[j].quantity,product[j].id,product[j].costPrice,product[j].sellingPrice);
+            // Ajout dans le fichier
+            fprintf(fichier, "NOM:%s ,qty:%d,id:%s ,cost_price:%d ,selling_price:%d\n",
+                    product[*nbProduits].name, product[*nbProduits].quantity,
+                    product[*nbProduits].id, product[*nbProduits].costPrice,
+                    product[*nbProduits].sellingPrice);
 
+            (*nbProduits)++; // On met à jour le compteur de produits
         }
     }
+
     fclose(fichier);
-    *nbProduits += m;  // on met à jour le compteur
+
+}
+
+
+int loadProductsFromFile(PRODUCT *product) {
+    FILE* fichier = fopen("item.txt", "r");
+    if (fichier == NULL) return 0;
+
+    int i = 0;
+    while (fscanf(fichier, "NOM:%s ,qty:%d,id:%s ,cost_price:%d ,selling_price:%d\n",
+                  product[i].name,
+                  &product[i].quantity,
+                  product[i].id,
+                  &product[i].costPrice,
+                  &product[i].sellingPrice) == 5) {
+        i++;
+    }
+
+    fclose(fichier);
+    return i;
 }
 
 void print(int nb, PRODUCT* product) {
@@ -48,11 +82,14 @@ void print(int nb, PRODUCT* product) {
     }
 
     printf("\n==== LISTE DES PRODUITS ====\n");
-    printf("%-15s %-10s %-10s\n", "Nom", "Quantité", "ID");
+    printf("%-15s %-10s %-10s %-15s %-15s\n", "Nom", "Quantité", "ID", "Prix Coût", "Prix Vente");
     for (int j = 0; j < nb; j++) {
-        printf("NAME: %-15s", product[j].name);
-        printf("QUANTITY: %-10d", product[j].quantity);
-        printf("ID: %-10s", product[j].id);
+        printf("%-15s %-10d %-10s %-15d %-15d\n",
+            product[j].name,
+            product[j].quantity,
+            product[j].id,
+            product[j].costPrice,
+            product[j].sellingPrice);
     }
 }
 
@@ -61,6 +98,9 @@ void lookup_student(int m, PRODUCT* product, char* matricule) {
         if (strcmp(matricule, product[j].id) == 0) {
             printf("NAME: %s\n", product[j].name);
             printf("QUANTITY: %d\n", product[j].quantity);
+            printf("COST PRICE: %d\n", product[j].costPrice);
+            printf("SELLING PRICE: %d\n", product[j].sellingPrice);
+            printf("Product found successfully.\n");
             return;
         }
     }
@@ -185,4 +225,14 @@ void facture(int count,PRODUCT*product,int* quantities,int total,int profit){
     printf("Thank you for your purchase!\n");
 
     printf("Please visit us again!\n");
+}
+int produitExiste(PRODUCT*product,int nbProduits,char*namepurchase){
+    for (int i = 0; i < nbProduits; i++)
+    {
+        if (strcmp(product[i].name,namepurchase)==0)
+        {
+            return 1; //trouve
+        }
+    }
+    return 0; //pas trouve
 }
