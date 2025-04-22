@@ -17,7 +17,7 @@ typedef struct user {
 } user;
 
 void store( PRODUCT* product,int* nbProduits) ;
-void print(int nb, PRODUCT* product);
+void print(int nbProduits, PRODUCT* product);
 int loadProductsFromFile(PRODUCT* product);
 void lookup_student(int m, PRODUCT* product, char* matricule);
 void free_Memory(int n, user* users);

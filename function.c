@@ -79,15 +79,16 @@ int loadProductsFromFile(PRODUCT *product) {
     return i;
 }
 
-void print(int nb, PRODUCT* product) {
+void print(int nbProduits, PRODUCT* product) {
+     nbProduits = loadProductsFromFile(product);
 
-    if (nb == 0) {
+    if (nbProduits == 0) {
         printf("No products stored.\n");
     }
 
     printf("\n==== LISTE DES PRODUITS ====\n");
     printf("%-15s %-10s %-10s %-15s %-15s\n", "Nom", "Quantité", "ID", "Prix Coût", "Prix Vente");
-    for (int j = 0; j < nb; j++) {
+    for (int j = 0; j < nbProduits; j++) {
         printf("%-15s %-10d %-10s %-15d %-15d\n",
             product[j].name,
             product[j].quantity,
