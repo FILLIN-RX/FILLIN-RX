@@ -13,7 +13,8 @@ int main() {
     PRODUCT product[200];
 
     do {
-        printf("\n1. Store product\n2. View product\n3. Look up product\n4. purchase item\n5.back\n");
+        printf("1. Store product\n2. View product\n3. Look up product\n4. Purchase item\n5. View invoices\n6. Exit\n");
+
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -35,6 +36,12 @@ int main() {
             case 4:
 
                 purchase(nbProduits, product, namepurchase);
+                break;
+            case 5:
+                afficherFactures();
+                break;
+            case 6:
+                printf("Exiting the program.\n");
                 break;
             default:
                 printf("Invalid option.\n");

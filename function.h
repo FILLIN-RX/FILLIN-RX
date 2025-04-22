@@ -23,7 +23,9 @@ void lookup_student(int m, PRODUCT* product, char* matricule);
 void free_Memory(int n, user* users);
 void purchase(int m ,PRODUCT*product,char*namepurchase );
 void facture(int count, PRODUCT *product, int *quantities, int total, int profit);
-int produitExiste(PRODUCT* product, int nbProduits, char* namepurchase);
+int produitExiste(PRODUCT* product, int nbProduits, char* namepurchase, char* id);
+void afficherFactures();
+
 
 
 #endif

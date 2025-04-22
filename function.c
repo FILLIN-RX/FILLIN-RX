@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "function.h"
+#include <time.h>
 
 
 
@@ -21,11 +22,14 @@ void store( PRODUCT* product,int* nbProduits) {
         for (int j = 0; j < m; j++) {
             printf("PRODUCT %d\n", j + 1);
             char tempName[50];
+            char tempId[20];
             printf("NAME: ");
             scanf("%s", tempName);
+            printf("ID: ");
+            scanf("%s", tempId);
 
             // Vérifie si le produit existe déjà
-            if (produitExiste(product, *nbProduits, tempName)) {
+            if (produitExiste(product, *nbProduits, tempName,tempId)) {
                 printf("⚠️ Le produit '%s' existe déjà. Il ne sera pas ajouté.\n", tempName);
                 j--; // Redemander l'entrée du produit
                 continue;
@@ -33,6 +37,7 @@ void store( PRODUCT* product,int* nbProduits) {
 
             // Sinon, on complète le reste des informations
             strcpy(product[*nbProduits].name, tempName);
+            strcpy(product[*nbProduits].id, tempId);
             printf("QUANTITY: ");
             scanf("%d", &product[*nbProduits].quantity);
             printf("ID: ");
@@ -206,30 +211,73 @@ void facture(int count,PRODUCT*product,int* quantities,int total,int profit){
     printf("        FILLIN SUPERMARKET\n");
     printf("===========================\n\n");
 
-    printf("%-15s %-10s %-15s %-15s\n", "Product", "Qty", "Unit Price", "Total Price");
-    printf("-------------------------------------------------------------\n");
+    FILE* f = fopen("factures.txt", "a"); // ← fichier historique
+    if (f == NULL) {
+        printf("Erreur lors de l'ouverture du fichier facture.\n");
+        return;
+    }
+
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    fprintf(f, "\n================= FACTURE =================\n");
+
+    fprintf(f, "Date: %02d-%02d-%04d %02d:%02d:%02d\n", tm.tm_mday, tm.tm_mon + 1, tm.tm_year + 1900, tm.tm_hour, tm.tm_min, tm.tm_sec);
+    fprintf(f, "%-15s %-10s %-15s %-15s\n", "Product", "Qty", "Unit Price", "Total Price");
+    fprintf(f, "-------------------------------------------------------------\n");
     for (int i = 0; i < count; i++)
     {
         int lineTotal = quantities[i] * product[i].sellingPrice;
-        printf("%-15s %-10d %-15d %-15d\n",
+        fprintf(f,"%-15s %-10d %-15d %-15d\n",
                product[i].name,
                quantities[i],
                product[i].sellingPrice,
                lineTotal);
     }
 
-    printf("-------------------------------------------------------------\n");
-    printf("%42s %10d\n", "TOTAL:", total);
-    printf("%42s %10d\n", "PROFIT:", profit);
-    printf("=============================================================\n");
+    fprintf(f, "-------------------------------------------------------------\n");
+    fprintf(f, "%42s %10d\n", "TOTAL:", total);
+    fprintf(f, "%42s %10d\n", "PROFIT:", profit);
+    fprintf(f, "=============================================================\n");
     printf("Thank you for your purchase!\n");
 
     printf("Please visit us again!\n");
+    fclose(f);
 }
-int produitExiste(PRODUCT*product,int nbProduits,char*namepurchase){
+
+void afficherFactures() {
+    FILE* fichier = fopen("factures.txt", "r");
+    if (fichier == NULL) {
+        printf("⚠️ Impossible d'ouvrir l'historique des factures.\n");
+        return;
+    }
+
+    printf("\n===== HISTORIQUE DES FACTURES =====\n\n");
+
+    char ligne[256];
+    while (fgets(ligne, sizeof(ligne), fichier) != NULL) {
+        printf("%s", ligne);
+    }
+
+    fclose(fichier);
+}
+
+
+// Fonction de comparaison insensible à la casse pour les chaînes
+int strcasecmp_custom(const char* s1, const char* s2) {
+    while (*s1 && *s2) {
+        if (tolower((unsigned char)*s1) != tolower((unsigned char)*s2)) {
+            return 0; // Les chaînes ne sont pas égales
+        }
+        s1++;
+        s2++;
+    }
+    return *s1 == *s2; // Retourne vrai si les deux chaînes sont égales (fin ou caractères identiques)
+}
+// Fonction pour vérifier si un produit existe déjà
+int produitExiste(PRODUCT*product,int nbProduits,char*namepurchase,char*id){
     for (int i = 0; i < nbProduits; i++)
     {
-        if (strcmp(product[i].name,namepurchase)==0)
+        if (strcasecmp_custom(product[i].name, namepurchase) == 1 || strcasecmp_custom(product[i].id, idpurchase) == 1)
         {
             return 1; //trouve
         }
