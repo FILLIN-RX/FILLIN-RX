@@ -192,6 +192,7 @@ void purchase(int m ,PRODUCT*product ,char*namepurchase){
                 if (choice==1)
                 {
                     facture(numPurchased, purchased, quantities, total, totalProfit);
+                    updateProductsToFile(product, m);
 
                 }
                 else if (choice==2)
@@ -208,14 +209,14 @@ void purchase(int m ,PRODUCT*product ,char*namepurchase){
 
 }
 void updateProductsToFile(PRODUCT *products, int count) {
-    FILE *f = fopen("produits.txt", "w");
+    FILE *f = fopen("item.txt", "w");
     if (!f) {
         printf("Erreur d'ouverture du fichier produits.txt\n");
         return;
     }
 
     for (int i = 0; i < count; i++) {
-        fprintf(f, "%s %d %d %d %d\n",
+        fprintf(f,"NOM:%s ,qty:%d,id:%s ,cost_price:%d ,selling_price:%d\n",
             products[i].name,
             products[i].quantity,
             products[i].id,

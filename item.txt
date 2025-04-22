@@ -1,9 +1,10 @@
-NOM:no ,qty:6,id:4 ,cost_price:6 ,selling_price:7
-NOM:yo ,qty:5,id:6 ,cost_price:89 ,selling_price:98
-NOM:vo ,qty:7,id:5 ,cost_price:67 ,selling_price:78
-NOM:ko ,qty:6,id:56 ,cost_price:56 ,selling_price:67
-NOM:banana ,qty:67,id:5 ,cost_price:56 ,selling_price:67
-NOM:bu ,qty:67,id:77 ,cost_price:678 ,selling_price:6789
-NOM:tu ,qty:5,id:y67 ,cost_price:50 ,selling_price:67
-NOM:nm ,qty:5,id:43e ,cost_price:45 ,selling_price:56
-NOM:gh ,qty:5,id:hyt ,cost_price:56 ,selling_price:65
+no 0 4 6 7
+yo 5 6 89 98
+vo 7 5 67 78
+ko 6 56 56 67
+banana 67 5 56 67
+bu 67 77 678 6789
+tu 5 y67 50 67
+nm 5 43e 45 56
+gh 5 hyt 56 65
+q 5 re 56 76

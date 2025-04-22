@@ -13,6 +13,7 @@ int main() {
     int nbProduits = 0;
     char namepurchase[200];
     PRODUCT product[200];
+    nbProduits = loadProductsFromFile(product); // 🔁 recharge auto
 
     do {
         printf("1. Store product\n2. View product\n3. Look up product\n4. Purchase item\n5. View invoices\n6. Exit\n");
@@ -27,16 +28,17 @@ int main() {
 
                 break;
             case 2:
-
+                nbProduits = loadProductsFromFile(product); // 🔁 recharge auto
                 print(nbProduits, product);
                 break;
             case 3:
+                nbProduits = loadProductsFromFile(product); // 🔁 recharge auto
                 printf("Enter the ID of the product to find: ");
                 scanf("%s", matricule);
                 lookup_student(nbProduits, product, matricule);
                 break;
             case 4:
-
+                nbProduits = loadProductsFromFile(product); // 🔁 recharge auto
                 purchase(nbProduits, product, namepurchase);
                 break;
             case 5:
